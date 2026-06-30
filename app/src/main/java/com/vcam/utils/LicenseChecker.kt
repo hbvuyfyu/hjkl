@@ -76,6 +76,7 @@ object LicenseChecker {
     enum class VerifyResult {
         VALID,
         INVALID,
+        REVOKED,
         SERVER_EMPTY,
         NETWORK_ERROR
     }
