@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class CodeActivity : AppCompatActivity() {
 
     private lateinit var etCode: EditText
-    private lateinit var btnVerify: MaterialButton
+    private lateinit var btnSubmit: MaterialButton
     private lateinit var tvStatus: TextView
     private lateinit var pbLoading: ProgressBar
 
@@ -25,11 +25,11 @@ class CodeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_code)
 
         etCode = findViewById(R.id.et_code)
-        btnVerify = findViewById(R.id.btn_verify_code)
+        btnSubmit = findViewById(R.id.btn_submit)
         tvStatus = findViewById(R.id.tv_status)
-        pbLoading = findViewById(R.id.pb_loading)
+        pbLoading = findViewById(R.id.progress_bar)
 
-        btnVerify.setOnClickListener { handleVerify() }
+        btnSubmit.setOnClickListener { handleVerify() }
     }
 
     private fun handleVerify() {
@@ -39,7 +39,7 @@ class CodeActivity : AppCompatActivity() {
             return
         }
 
-        btnVerify.isEnabled = false
+        btnSubmit.isEnabled = false
         pbLoading.visibility = android.view.View.VISIBLE
         tvStatus.text = "جاري التحقق..."
         tvStatus.setTextColor(0xFF4F8EF7.toInt())
@@ -63,15 +63,19 @@ class CodeActivity : AppCompatActivity() {
                 }
                 LicenseChecker.VerifyResult.INVALID -> {
                     showError("كود غير صحيح")
-                    btnVerify.isEnabled = true
+                    btnSubmit.isEnabled = true
                 }
                 LicenseChecker.VerifyResult.REVOKED -> {
                     showError("وصولك تم إلغاؤه")
-                    btnVerify.isEnabled = true
+                    btnSubmit.isEnabled = true
                 }
                 LicenseChecker.VerifyResult.SERVER_EMPTY -> {
                     showError("خطأ في الاتصال — جرب لاحقاً")
-                    btnVerify.isEnabled = true
+                    btnSubmit.isEnabled = true
+                }
+                else -> {
+                    showError("خطأ غير متوقع")
+                    btnSubmit.isEnabled = true
                 }
             }
         }
